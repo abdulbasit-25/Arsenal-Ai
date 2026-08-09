@@ -453,7 +453,7 @@ class HudCanvas(QWidget):
             p.setPen(QPen(qcol(C.PRI, min(255, int(self._halo * 2))), 1))
             p.setFont(QFont("Courier New", 13, QFont.Weight.Bold))
             p.drawText(QRectF(cx - 80, cy - 14, 160, 28),
-                       Qt.AlignmentFlag.AlignCenter, "J.A.R.V.I.S")
+                       Qt.AlignmentFlag.AlignCenter, "XENO")
 
         # particles
         for pt in self._particles:
@@ -889,7 +889,7 @@ class SetupOverlay(QWidget):
             return w
 
         layout.addWidget(_lbl("◈  INITIALISATION REQUIRED", 13, True))
-        layout.addWidget(_lbl("Configure J.A.R.V.I.S. before first boot.", 9, color=C.PRI_DIM))
+        layout.addWidget(_lbl("Configure XENO before first boot.", 9, color=C.PRI_DIM))
         layout.addSpacing(6)
 
         sep = QFrame(); sep.setFrameShape(QFrame.Shape.HLine)
@@ -1440,14 +1440,7 @@ class MainWindow(QMainWindow):
         self.hud.speaking = (state == "SPEAKING")
 
     def _check_config(self) -> bool:
-        if not API_FILE.exists(): return False
-        try:
-            d = json.loads(API_FILE.read_text(encoding="utf-8"))
-            return (bool(d.get("gemini_api_key")) and
-                    bool(d.get("openrouter_api_key")) and
-                    bool(d.get("os_system")))
-        except Exception:
-            return False
+        return bool(get_gemini_api_key() and get_openrouter_api_key())
 
     def _show_setup(self):
         ov = SetupOverlay(self.centralWidget())
@@ -1464,15 +1457,8 @@ class MainWindow(QMainWindow):
 
     # Change signature:
     def _on_setup_done(self, key: str, or_key: str, os_name: str):
-        os.makedirs(CONFIG_DIR, exist_ok=True)
-        API_FILE.write_text(
-            json.dumps({
-                "gemini_api_key":    key,
-                "openrouter_api_key": or_key,
-                "os_system":         os_name,
-            }, indent=4),
-            encoding="utf-8",
-        )
+        os.environ["GEMINI_API_KEY"] = key.strip()
+        os.environ["OPENROUTER_API_KEY"] = or_key.strip()
         self._ready = True
         if self._overlay:
             self._overlay.hide()

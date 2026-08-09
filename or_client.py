@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 import time
 import base64
@@ -7,6 +8,8 @@ from pathlib import Path
 from typing import Optional
 
 import requests
+
+from config.secrets import get_openrouter_api_key
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("openrouter_client")
@@ -17,21 +20,11 @@ def _get_base_dir() -> Path:
     return Path(__file__).resolve().parent
 
 
-BASE_DIR     = _get_base_dir()
-API_KEY_PATH = BASE_DIR / "config" / "api_keys.json"
-
 def _load_api_key() -> str:
-    try:
-        with open(API_KEY_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        key = data.get("openrouter_api_key", "").strip()
-        if not key:
-            raise ValueError("openrouter_api_key is empty in api_keys.json")
-        return key
-    except FileNotFoundError:
-        raise RuntimeError(f"api_keys.json not found at: {API_KEY_PATH}")
-    except Exception as e:
-        raise RuntimeError(f"Failed to load OpenRouter API key: {e}")
+    key = get_openrouter_api_key()
+    if not key:
+        raise RuntimeError("OPENROUTER_API_KEY is not configured.")
+    return key
 
 TEXT_MODELS: list[str] = [
     "nvidia/nemotron-3-super-120b-a12b:free",
@@ -86,8 +79,8 @@ class OpenRouterClient:
         self._headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type":  "application/json",
-            "HTTP-Referer":  "https://github.com/mark-xxv",
-            "X-Title":       "MARK XXV",
+            "HTTP-Referer":  "https://github.com/abdul-basit",
+            "X-Title":       "XENO",
         }
 
     def _is_rate_limited(self, model: str) -> bool:
@@ -199,7 +192,7 @@ class OpenRouterClient:
         self,
         prompt: str,
         system: str = (
-            "You are a component of MARK XXV, an AI assistant inspired by JARVIS. "
+            "You are a component of XENO, a personal AI assistant. "
             "Be concise, helpful, and precise."
         ),
         model: Optional[str] = None,
@@ -328,7 +321,7 @@ client = OpenRouterClient()
 
 if __name__ == "__main__":
     print("=" * 55)
-    print("  MARK XXV — OpenRouter Client Self-Test")
+    print("  XENO — OpenRouter Client Self-Test")
     print("=" * 55)
 
     print("\n[TEST 1] Basic chat...")

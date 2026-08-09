@@ -90,7 +90,7 @@ except Exception:
         xml_content = f'''<?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
-    <Description>MARK Reminder: {safe_message}</Description>
+    <Description>XENO Reminder: {safe_message}</Description>
   </RegistrationInfo>
   <Triggers>
     <TimeTrigger>

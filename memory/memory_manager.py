@@ -179,20 +179,20 @@ def extract_memory(user_text: str, jarvis_text: str, api_key: str = "") -> dict:
             f"                  favorite_game, favorite_sport, favorite_book, favorite_artist,\n"
             f"                  favorite_country, hobbies, interests, dislikes, etc.\n"
             f"  projects      → projects being built, ongoing work, goals, ideas in progress\n"
-            f"                  (e.g. mark_xxv: 'Building a JARVIS-like AI assistant')\n"
+            f"                  (e.g. xeno: 'Building a personal AI assistant')\n"
             f"  relationships → people mentioned: friends, family, partner, colleagues\n"
             f"                  (e.g. best_friend_ali: 'Best friend, met in university')\n"
             f"  wishes        → future plans, things to buy, travel plans, dreams\n"
             f"  notes         → anything else worth remembering (habits, schedule, etc.)\n\n"
             f"IMPORTANT:\n"
             f"- Be LIBERAL: if something MIGHT be worth remembering, include it.\n"
-            f"- Extract from BOTH user and Jarvis turns.\n"
+            f"- Extract from BOTH user and XENO turns.\n"
             f"- Skip: weather, reminders, search results, one-time commands.\n"
             f"- Use concise English values regardless of conversation language.\n\n"
             f"Format:\n"
             f'{{"identity":{{"name":{{"value":"Ali"}}}},\n'
             f' "preferences":{{"favorite_color":{{"value":"blue"}}}},\n'
-            f' "projects":{{"mark_xxv":{{"value":"JARVIS-like AI assistant"}}}},\n'
+            f' "projects":{{"xeno":{{"value":"Personal AI assistant"}}}},\n'
             f' "relationships":{{"friend_yusuf":{{"value":"close friend"}}}},\n'
             f' "wishes":{{"buy_guitar":{{"value":"wants an acoustic guitar"}}}},\n'
             f' "notes":{{"works_at_night":{{"value":"usually active late at night"}}}}}}\n\n'
