@@ -1,48 +1,29 @@
-# 🤖 Xeno AI
+# XENO
 
-### A Real-Time Voice AI Assistant — By Abdul Basit
+## XENO — Personal AI Desktop Assistant
 
-A conversational voice AI built for natural, low-latency dialogue. Built with Python.
+XENO is a cross-platform personal AI assistant for desktop use. It supports voice interaction, desktop control, file handling, web interaction, screen understanding, memory, and multilingual conversation in English and Urdu.
 
----
+### Highlights
+- Voice interaction with live conversational support
+- Desktop control and app launching
+- File and document understanding
+- Web search and browser interaction
+- Screen and camera awareness
+- Persistent memory and task assistance
+- English + Urdu / Roman Urdu communication
 
-## ✨ Overview
+### Requirements
+- Python 3.11+
+- Microphone for voice input
+- Gemini and OpenRouter API keys
 
-Xeno AI is a real-time voice assistant designed to hold natural conversations through speech. It's an early-stage personal project focused on getting voice interaction fast and reliable before expanding into more autonomous capabilities.
+### Run
+```bash
+pip install -r requirements.txt
+python main.py
+```
 
----
-
-## 🚀 Capabilities
-
-| Feature            | Description                         |
-| ------------------ | ----------------------------------- |
-| 🎙️ Real-time Voice | Low-latency conversational dialogue |
-
-More capabilities are planned as the project develops.
-
----
-
-## 📋 Requirements
-
-| Requirement    | Details                        |
-| -------------- | ------------------------------ |
-| **Language**   | Python                         |
-| **Microphone** | Required for voice interaction |
-
----
-
-## ⚠️ License
-
+### License
 Personal and non-commercial use only.
-Licensed under **[Creative Commons BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)**.
-
----
-
-## 👤 Connect with the Creator
-
-Built by Abdul Basit — web developer & AI/IoT enthusiast.
-
-| Platform  | Link                                                                 |
-| --------- | -------------------------------------------------------------------- |
-| Portfolio | [abdulbasit-archer.vercel.app](https://abdulbasit-archer.vercel.app) |
-| Email     | abdulbasit.alpha25@gmail.com                                         |
+Licensed under [Creative Commons BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).

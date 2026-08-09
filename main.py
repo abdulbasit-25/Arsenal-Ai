@@ -59,8 +59,9 @@ def _load_system_prompt() -> str:
         return PROMPT_PATH.read_text(encoding="utf-8")
     except Exception:
         return (
-            "You are JARVIS, Tony Stark's AI assistant. "
-            "Be concise, direct, and always use the provided tools to complete tasks. "
+            "You are XENO, a personal desktop AI assistant. "
+            "Be concise, direct, and helpful. "
+            "Use the provided tools to complete tasks and respond naturally in English or Urdu/Roman Urdu as appropriate. "
             "Never simulate or guess results — always call the appropriate tool."
         )
     
@@ -579,7 +580,7 @@ class JarvisLive:
         name = fc.name
         args = dict(fc.args or {})
 
-        print(f"[JARVIS] 🔧 {name}  {args}")
+        print(f"[XENO] 🔧 {name}  {args}")
         self.ui.set_state("THINKING")
         if name == "save_memory":
             category = args.get("category", "notes")
@@ -704,10 +705,7 @@ class JarvisLive:
         if not self.ui.muted:
             self.ui.set_state("LISTENING")
 
-        print(f"[JARVIS] 📤 {name} → {str(result)[:80]}")
-
-        return types.FunctionResponse(
-            id=fc.id, name=name,
+        print(f"[XENO] 📤 {name} → {str(result)[:80]}")
             response={"result": result}
         )
 
@@ -717,7 +715,7 @@ class JarvisLive:
             await self.session.send_realtime_input(media=msg)
 
     async def _listen_audio(self):
-        print("[JARVIS] 🎤 Mic started")
+        print("[XENO] 🎤 Mic started")
         loop = asyncio.get_event_loop()
 
         def callback(indata, frames, time_info, status):
@@ -738,15 +736,15 @@ class JarvisLive:
                 blocksize=CHUNK_SIZE,
                 callback=callback,
             ):
-                print("[JARVIS] 🎤 Mic stream open")
+                print("[XENO] 🎤 Mic stream open")
                 while True:
                     await asyncio.sleep(0.1)
         except Exception as e:
-            print(f"[JARVIS] ❌ Mic: {e}")
+            print(f"[XENO] ❌ Mic: {e}")
             raise
 
     async def _receive_audio(self):
-        print("[JARVIS] 👂 Recv started")
+        print("[XENO] 👂 Recv started")
         out_buf, in_buf = [], []
 
         try:
@@ -780,7 +778,7 @@ class JarvisLive:
 
                             full_out = " ".join(out_buf).strip()
                             if full_out:
-                                self.ui.write_log(f"Jarvis: {full_out}")
+                                self.ui.write_log(f"XENO: {full_out}")
                             out_buf = []
 
                             if full_in and len(full_in) > 5:
@@ -793,7 +791,7 @@ class JarvisLive:
                     if response.tool_call:
                         fn_responses = []
                         for fc in response.tool_call.function_calls:
-                            print(f"[JARVIS] 📞 {fc.name}")
+                            print(f"[XENO] 📞 {fc.name}")
                             fr = await self._execute_tool(fc)
                             fn_responses.append(fr)
                         await self.session.send_tool_response(
@@ -801,12 +799,12 @@ class JarvisLive:
                         )
 
         except Exception as e:
-            print(f"[JARVIS] ❌ Recv: {e}")
+            print(f"[XENO] ❌ Recv: {e}")
             traceback.print_exc()
             raise
 
     async def _play_audio(self):
-        print("[JARVIS] 🔊 Play started")
+        print("[XENO] 🔊 Play started")
         loop = asyncio.get_event_loop()
 
         stream = sd.RawOutputStream(
@@ -822,7 +820,7 @@ class JarvisLive:
                 self.set_speaking(True)
                 await asyncio.to_thread(stream.write, chunk)
         except Exception as e:
-            print(f"[JARVIS] ❌ Play: {e}")
+            print(f"[XENO] ❌ Play: {e}")
             raise
         finally:
             self.set_speaking(False)
@@ -849,9 +847,9 @@ class JarvisLive:
                 self.audio_in_queue = asyncio.Queue()
                 self.out_queue      = asyncio.Queue(maxsize=10)
 
-                print("[JARVIS] ✅ Connected.")
-                self.ui.set_state("LISTENING")
-                self.ui.write_log("SYS: JARVIS online.")
+print("[XENO] ✅ Connected.")
+                    self.ui.set_state("LISTENING")
+                    self.ui.write_log("SYS: XENO online.")
 
                 tg.create_task(self._send_realtime())
                 tg.create_task(self._listen_audio())
@@ -861,14 +859,14 @@ class JarvisLive:
                 await asyncio.Event().wait()
 
         except Exception as e:
-            print(f"[JARVIS] ⚠️ {e}")
+            print(f"[XENO] ⚠️ {e}")
             traceback.print_exc()
             self.set_speaking(False)
             self.ui.set_state("THINKING")
             self.ui.write_log(
                 "SYS: Live voice connection unavailable. Continuing in text-only mode."
             )
-            print("[JARVIS] 🛑 Live voice disabled. No further reconnect attempts.")
+            print("[XENO] 🛑 Live voice disabled. No further reconnect attempts.")
 
 def main():
     ui = JarvisUI("face.png")

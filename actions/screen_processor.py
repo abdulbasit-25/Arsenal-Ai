@@ -253,7 +253,7 @@ class _LiveSession:
                     if transcript_buf and self._player:
                         full = re.sub(r'\s+', ' ', " ".join(transcript_buf)).strip()
                         if full:
-                            self._player.write_log(f"Jarvis: {full}")
+                            self._player.write_log(f"XENO: {full}")
                             print(f"[ScreenProcess] 💬 {full}")
                     transcript_buf = []
         except Exception as e:
