@@ -23,8 +23,6 @@ except ImportError:
 from google import genai
 from google.genai import types
 
-from config.secrets import get_gemini_api_key, get_gemini_live_model
-
 def get_base_dir():
     if getattr(sys, "frozen", False):
         return Path(sys.executable).parent
@@ -33,7 +31,7 @@ def get_base_dir():
 BASE_DIR        = get_base_dir()
 API_CONFIG_PATH = BASE_DIR / "config" / "api_keys.json"
 
-LIVE_MODEL          = get_gemini_live_model()
+LIVE_MODEL          = "models/gemini-2.5-flash-native-audio-preview-12-2025"
 CHANNELS            = 1
 RECEIVE_SAMPLE_RATE = 24000
 CHUNK_SIZE          = 1024
@@ -43,20 +41,26 @@ IMG_MAX_H = 360
 JPEG_Q    = 55
 
 SYSTEM_PROMPT = (
-    "You are XENO, a personal desktop AI assistant. "
+    "You are JARVIS from Iron Man movies. "
     "Analyze images with technical precision and intelligence. "
     "Help the user in a way they can understand — don't be overly complex. "
-    "Be concise, smart, and helpful. "
+    "Be concise, smart, and helpful like Tony Stark's AI assistant. "
     "Respond in maximum 2 short sentences. Speed is priority. "
+    "Address the user as 'sir' for a tone of respect. "
     "Ask if the user needs any further help with their problem."
 )
 
 
 def _get_api_key() -> str:
-    key = get_gemini_api_key()
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY is not configured.")
-    return key
+    try:
+        with open(API_CONFIG_PATH, "r", encoding="utf-8") as f:
+            keys = json.load(f)
+        key = keys.get("gemini_api_key", "")
+        if not key:
+            raise ValueError("gemini_api_key not found")
+        return key
+    except Exception as e:
+        raise RuntimeError(f"Could not load API key: {e}")
 
 
 def _get_camera_index() -> int:

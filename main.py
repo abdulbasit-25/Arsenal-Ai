@@ -1,6 +1,6 @@
 import asyncio
-import os
 import threading
+import json
 import sys
 import traceback
 from pathlib import Path
@@ -9,7 +9,6 @@ import sounddevice as sd
 from google import genai
 from google.genai import types
 from ui import JarvisUI
-from config.secrets import get_gemini_api_key, get_gemini_live_model
 from memory.memory_manager import (
     load_memory, update_memory, format_memory_for_prompt,
     should_extract_memory, extract_memory
@@ -41,8 +40,9 @@ def get_base_dir():
 
 
 BASE_DIR        = get_base_dir()
+API_CONFIG_PATH = BASE_DIR / "config" / "api_keys.json"
 PROMPT_PATH     = BASE_DIR / "core" / "prompt.txt"
-LIVE_MODEL = get_gemini_live_model()
+LIVE_MODEL          = "models/gemini-2.5-flash-native-audio-preview-12-2025"
 CHANNELS            = 1
 SEND_SAMPLE_RATE    = 16000
 RECEIVE_SAMPLE_RATE = 24000
@@ -50,10 +50,8 @@ CHUNK_SIZE          = 1024
 
 
 def _get_api_key() -> str:
-    key = get_gemini_api_key()
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY is not configured.")
-    return key
+    with open(API_CONFIG_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)["gemini_api_key"]
 
 
 def _load_system_prompt() -> str:
@@ -833,16 +831,8 @@ class JarvisLive:
             stream.close()
 
     async def run(self):
-        try:
-            api_key = _get_api_key()
-        except Exception as e:
-            print(f"[XENO] ⚠️ Gemini unavailable: {e}")
-            self.ui.set_state("THINKING")
-            self.ui.write_log("SYS: Gemini Live unavailable. Voice mode disabled. Other XENO features remain available.")
-            return
-
         client = genai.Client(
-            api_key=api_key,
+            api_key=_get_api_key(),
             http_options={"api_version": "v1beta"}
         )
 

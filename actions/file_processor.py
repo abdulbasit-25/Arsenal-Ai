@@ -18,6 +18,7 @@ Supported types:
 
 import os
 import re
+import json
 import shutil
 import subprocess
 import tempfile
@@ -26,14 +27,11 @@ from datetime import datetime
 
 import google.generativeai as genai
 
-from config.secrets import get_gemini_api_key
-
 
 def _get_api_key() -> str:
-    key = get_gemini_api_key()
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY is not configured.")
-    return key
+    config_path = Path(__file__).resolve().parent.parent / "config" / "api_keys.json"
+    with open(config_path, "r", encoding="utf-8") as f:
+        return json.load(f)["gemini_api_key"]
 
 
 def _gemini_client():

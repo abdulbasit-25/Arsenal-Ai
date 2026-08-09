@@ -1440,7 +1440,14 @@ class MainWindow(QMainWindow):
         self.hud.speaking = (state == "SPEAKING")
 
     def _check_config(self) -> bool:
-        return bool(get_gemini_api_key() and get_openrouter_api_key())
+        if not API_FILE.exists(): return False
+        try:
+            d = json.loads(API_FILE.read_text(encoding="utf-8"))
+            return (bool(d.get("gemini_api_key")) and
+                    bool(d.get("openrouter_api_key")) and
+                    bool(d.get("os_system")))
+        except Exception:
+            return False
 
     def _show_setup(self):
         ov = SetupOverlay(self.centralWidget())
@@ -1457,8 +1464,15 @@ class MainWindow(QMainWindow):
 
     # Change signature:
     def _on_setup_done(self, key: str, or_key: str, os_name: str):
-        os.environ["GEMINI_API_KEY"] = key.strip()
-        os.environ["OPENROUTER_API_KEY"] = or_key.strip()
+        os.makedirs(CONFIG_DIR, exist_ok=True)
+        API_FILE.write_text(
+            json.dumps({
+                "gemini_api_key":    key,
+                "openrouter_api_key": or_key,
+                "os_system":         os_name,
+            }, indent=4),
+            encoding="utf-8",
+        )
         self._ready = True
         if self._overlay:
             self._overlay.hide()

@@ -1,10 +1,9 @@
 import subprocess
 import sys
+import json
 import re
 import time
 from pathlib import Path
-
-from config.secrets import get_gemini_api_key
 
 
 def get_base_dir():
@@ -14,16 +13,15 @@ def get_base_dir():
 
 
 BASE_DIR         = get_base_dir()
+API_CONFIG_PATH  = BASE_DIR / "config" / "api_keys.json"
 PROJECTS_DIR     = Path.home() / "Desktop" / "JarvisProjects"
 MAX_FIX_ATTEMPTS = 5
 MODEL_PLANNER    = "gemini-2.5-flash"
 MODEL_WRITER     = "gemini-2.5-flash"
 
 def _get_api_key() -> str:
-    key = get_gemini_api_key()
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY is not configured.")
-    return key
+    with open(API_CONFIG_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)["gemini_api_key"]
 
 
 def _get_model(model_name: str):
