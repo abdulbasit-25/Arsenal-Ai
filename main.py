@@ -835,38 +835,40 @@ class JarvisLive:
             http_options={"api_version": "v1beta"}
         )
 
-        while True:
-            try:
-                print("[JARVIS] 🔌 Connecting...")
-                self.ui.set_state("THINKING")
-                config = self._build_config()
+        try:
+            print("[JARVIS] 🔌 Connecting...")
+            self.ui.set_state("THINKING")
+            config = self._build_config()
 
-                async with (
-                    client.aio.live.connect(model=LIVE_MODEL, config=config) as session,
-                    asyncio.TaskGroup() as tg,
-                ):
-                    self.session        = session
-                    self._loop          = asyncio.get_event_loop()
-                    self.audio_in_queue = asyncio.Queue()
-                    self.out_queue      = asyncio.Queue(maxsize=10)
+            async with (
+                client.aio.live.connect(model=LIVE_MODEL, config=config) as session,
+                asyncio.TaskGroup() as tg,
+            ):
+                self.session        = session
+                self._loop          = asyncio.get_event_loop()
+                self.audio_in_queue = asyncio.Queue()
+                self.out_queue      = asyncio.Queue(maxsize=10)
 
-                    print("[JARVIS] ✅ Connected.")
-                    self.ui.set_state("LISTENING")
-                    self.ui.write_log("SYS: JARVIS online.")
+                print("[JARVIS] ✅ Connected.")
+                self.ui.set_state("LISTENING")
+                self.ui.write_log("SYS: JARVIS online.")
 
-                    tg.create_task(self._send_realtime())
-                    tg.create_task(self._listen_audio())
-                    tg.create_task(self._receive_audio())
-                    tg.create_task(self._play_audio())
-                    
-            except Exception as e:
-                print(f"[JARVIS] ⚠️ {e}")
-                traceback.print_exc()
+                tg.create_task(self._send_realtime())
+                tg.create_task(self._listen_audio())
+                tg.create_task(self._receive_audio())
+                tg.create_task(self._play_audio())
 
+                await asyncio.Event().wait()
+
+        except Exception as e:
+            print(f"[JARVIS] ⚠️ {e}")
+            traceback.print_exc()
             self.set_speaking(False)
             self.ui.set_state("THINKING")
-            print("[JARVIS] 🔄 Reconnecting in 3s...")
-            await asyncio.sleep(3)
+            self.ui.write_log(
+                "SYS: Live voice connection unavailable. Continuing in text-only mode."
+            )
+            print("[JARVIS] 🛑 Live voice disabled. No further reconnect attempts.")
 
 def main():
     ui = JarvisUI("face.png")
