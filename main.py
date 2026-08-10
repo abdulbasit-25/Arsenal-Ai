@@ -876,9 +876,9 @@ def main():
 
     def runner():
         ui.wait_for_api_key()
-        Arsenal AI = JarvisLive(ui)
+        ArsenalAI = JarvisLive(ui)
         try:
-            asyncio.run(Arsenal AI.run())
+            asyncio.run(ArsenalAI.run())
         except KeyboardInterrupt:
             print("\n🔴 Shutting down...")
 
