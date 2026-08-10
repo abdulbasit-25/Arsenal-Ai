@@ -87,7 +87,7 @@ class OpenRouterClient:
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type":  "application/json",
             "HTTP-Referer":  "https://github.com/mark-xxv",
-            "X-Title":       "XENO",
+            "X-Title":       "Arsenal AI",
         }
 
     def _is_rate_limited(self, model: str) -> bool:
@@ -199,7 +199,7 @@ class OpenRouterClient:
         self,
         prompt: str,
         system: str = (
-            "You are a component of XENO, a personal AI assistant. "
+            "You are a component of Arsenal AI, a personal AI assistant. "
             "Be concise, helpful, and precise."
         ),
         model: Optional[str] = None,
@@ -328,7 +328,7 @@ client = OpenRouterClient()
 
 if __name__ == "__main__":
     print("=" * 55)
-    print("  XENO — OpenRouter Client Self-Test")
+    print("  Arsenal AI — OpenRouter Client Self-Test")
     print("=" * 55)
 
     print("\n[TEST 1] Basic chat...")

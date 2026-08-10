@@ -451,9 +451,9 @@ class HudCanvas(QWidget):
                 p.setPen(Qt.PenStyle.NoPen)
                 p.drawEllipse(QRectF(cx - r2, cy - r2, r2 * 2, r2 * 2))
             p.setPen(QPen(qcol(C.PRI, min(255, int(self._halo * 2))), 1))
-            p.setFont(QFont("Courier New", 13, QFont.Weight.Bold))
+            p.setFont(QFont("Segoe UI", 13, QFont.Weight.Bold))
             p.drawText(QRectF(cx - 80, cy - 14, 160, 28),
-                       Qt.AlignmentFlag.AlignCenter, "XENO")
+                       Qt.AlignmentFlag.AlignCenter, "ARSENAL AI")
 
         # particles
         for pt in self._particles:
@@ -607,7 +607,7 @@ class LogWidget(QTextEdit):
         self._pos    = 0
         tl = self._text.lower()
         if   tl.startswith("you:"):    self._tag = "you"
-        elif tl.startswith("xeno:"): self._tag = "ai"
+        elif tl.startswith("Arsenal AI:"): self._tag = "ai"
         elif tl.startswith("jarvis:"): self._tag = "ai"
         elif tl.startswith("file:"):   self._tag = "file"
         elif "err" in tl:              self._tag = "err"
@@ -734,7 +734,7 @@ class FileDropZone(QWidget):
 
     def _browse(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "Select a file for XENO", str(Path.home()),
+            self, "Select a file for Arsenal AI", str(Path.home()),
             "All Files (*.*);;"
             "Images (*.jpg *.jpeg *.png *.gif *.webp *.bmp *.svg);;"
             "Documents (*.pdf *.docx *.txt *.md *.pptx);;"
@@ -889,7 +889,7 @@ class SetupOverlay(QWidget):
             return w
 
         layout.addWidget(_lbl("◈  INITIALISATION REQUIRED", 13, True))
-        layout.addWidget(_lbl("Configure XENO before first boot.", 9, color=C.PRI_DIM))
+        layout.addWidget(_lbl("Configure Arsenal AI before first boot.", 9, color=C.PRI_DIM))
         layout.addSpacing(6)
 
         sep = QFrame(); sep.setFrameShape(QFrame.Shape.HLine)
@@ -1016,7 +1016,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self, face_path: str):
         super().__init__()
-        self.setWindowTitle("XENO — Personal AI Assistant")
+        self.setWindowTitle("Arsenal AI — Personal AI Assistant")
         self.setMinimumSize(_MIN_W, _MIN_H)
         self.resize(_DEFAULT_W, _DEFAULT_H)
 
@@ -1157,23 +1157,23 @@ class MainWindow(QMainWindow):
 
         def _badge(txt, color=C.TEXT_MED):
             l = QLabel(txt)
-            l.setFont(QFont("Courier New", 8))
+            l.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
             l.setStyleSheet(f"color: {color}; background: transparent;")
             return l
 
-        lay.addWidget(_badge("XENO", C.PRI_DIM))
+        lay.addWidget(_badge("ARSENAL AI", C.PRI))
         lay.addStretch()
 
-        mid = QVBoxLayout(); mid.setSpacing(1)
-        title = QLabel("XENO")
+        mid = QVBoxLayout(); mid.setSpacing(2)
+        title = QLabel("ARSENAL AI")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setFont(QFont("Courier New", 17, QFont.Weight.Bold))
-        title.setStyleSheet(f"color: {C.PRI}; background: transparent;")
+        title.setFont(QFont("Segoe UI", 17, QFont.Weight.Bold))
+        title.setStyleSheet(f"color: {C.WHITE}; background: transparent;")
         mid.addWidget(title)
-        sub = QLabel("Personal AI Assistant")
+        sub = QLabel("Personal AI Command System")
         sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        sub.setFont(QFont("Courier New", 7))
-        sub.setStyleSheet(f"color: {C.PRI_DIM}; background: transparent;")
+        sub.setFont(QFont("Segoe UI", 9))
+        sub.setStyleSheet(f"color: {C.TEXT_MED}; background: transparent;")
         mid.addWidget(sub)
         lay.addLayout(mid)
         lay.addStretch()
@@ -1181,12 +1181,12 @@ class MainWindow(QMainWindow):
         right_col = QVBoxLayout(); right_col.setSpacing(2)
         self._clock_lbl = QLabel("00:00:00")
         self._clock_lbl.setFont(QFont("Courier New", 14, QFont.Weight.Bold))
-        self._clock_lbl.setStyleSheet(f"color: {C.PRI}; background: transparent;")
+        self._clock_lbl.setStyleSheet(f"color: {C.WHITE}; background: transparent;")
         self._clock_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
         right_col.addWidget(self._clock_lbl)
         self._date_lbl = QLabel("")
-        self._date_lbl.setFont(QFont("Courier New", 7))
-        self._date_lbl.setStyleSheet(f"color: {C.TEXT_DIM}; background: transparent;")
+        self._date_lbl.setFont(QFont("Segoe UI", 8))
+        self._date_lbl.setStyleSheet(f"color: {C.TEXT_MED}; background: transparent;")
         self._date_lbl.setAlignment(Qt.AlignmentFlag.AlignRight)
         right_col.addWidget(self._date_lbl)
         lay.addLayout(right_col)
@@ -1201,27 +1201,27 @@ class MainWindow(QMainWindow):
         w.setFixedWidth(_LEFT_W)
         w.setStyleSheet(f"background: {C.DARK}; border-right: 1px solid {C.BORDER};")
         lay = QVBoxLayout(w)
-        lay.setContentsMargins(8, 10, 8, 10)
-        lay.setSpacing(6)
+        lay.setContentsMargins(10, 14, 10, 10)
+        lay.setSpacing(8)
 
-        hdr = QLabel("◈ SYS MONITOR")
-        hdr.setFont(QFont("Courier New", 7, QFont.Weight.Bold))
+        hdr = QLabel("SYSTEM STATUS")
+        hdr.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
         hdr.setStyleSheet(f"color: {C.PRI}; background: transparent; "
-                          f"border-bottom: 1px solid {C.BORDER}; padding-bottom: 4px;")
+                          f"border-bottom: 1px solid {C.BORDER}; padding-bottom: 5px;")
         lay.addWidget(hdr)
-        lay.addSpacing(2)
+        lay.addSpacing(4)
 
         self._bar_cpu = MetricBar("CPU", C.PRI)
         self._bar_mem = MetricBar("MEM", C.ACC2)
         self._bar_net = MetricBar("NET", C.GREEN)
         self._bar_gpu = MetricBar("GPU", C.ACC)
-        self._bar_tmp = MetricBar("TMP", "#ff6688")
+        self._bar_tmp = MetricBar("TEMP", C.RED)
 
         for bar in [self._bar_cpu, self._bar_mem, self._bar_net,
                     self._bar_gpu, self._bar_tmp]:
             lay.addWidget(bar)
 
-        lay.addSpacing(4)
+        lay.addSpacing(8)
 
         info_panel = QWidget()
         info_panel.setStyleSheet(
@@ -1232,18 +1232,18 @@ class MainWindow(QMainWindow):
         ip_lay.setSpacing(3)
 
         self._uptime_lbl = QLabel("UP  --:--")
-        self._uptime_lbl.setFont(QFont("Courier New", 8, QFont.Weight.Bold))
+        self._uptime_lbl.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
         self._uptime_lbl.setStyleSheet(f"color: {C.GREEN}; background: transparent; border: none;")
         ip_lay.addWidget(self._uptime_lbl)
 
         self._proc_lbl = QLabel("PROC  --")
-        self._proc_lbl.setFont(QFont("Courier New", 8))
+        self._proc_lbl.setFont(QFont("Segoe UI", 8))
         self._proc_lbl.setStyleSheet(f"color: {C.TEXT_MED}; background: transparent; border: none;")
         ip_lay.addWidget(self._proc_lbl)
 
         os_name = {"Windows": "WIN", "Darwin": "macOS", "Linux": "LINUX"}.get(_OS, _OS.upper())
         os_lbl = QLabel(f"OS  {os_name}")
-        os_lbl.setFont(QFont("Courier New", 8))
+        os_lbl.setFont(QFont("Segoe UI", 8))
         os_lbl.setStyleSheet(f"color: {C.ACC2}; background: transparent; border: none;")
         ip_lay.addWidget(os_lbl)
 
@@ -1256,11 +1256,11 @@ class MainWindow(QMainWindow):
             ("PROTOCOL\nXXXVIII",   C.TEXT_DIM),
         ]:
             lbl = QLabel(txt)
-            lbl.setFont(QFont("Courier New", 7, QFont.Weight.Bold))
+            lbl.setFont(QFont("Segoe UI", 8, QFont.Weight.Bold))
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             lbl.setStyleSheet(
                 f"color: {col}; background: {C.PANEL2};"
-                f"border: 1px solid {C.BORDER_A}; border-radius: 3px; padding: 4px;"
+                f"border: 1px solid {C.BORDER}; border-radius: 5px; padding: 6px;"
             )
             lay.addWidget(lbl)
 
@@ -1274,12 +1274,12 @@ class MainWindow(QMainWindow):
         lay.setSpacing(6)
 
         def _sec(txt):
-            l = QLabel(f"▸ {txt}")
-            l.setFont(QFont("Courier New", 7, QFont.Weight.Bold))
-            l.setStyleSheet(f"color: {C.TEXT_MED}; background: transparent;")
+            l = QLabel(txt.upper())
+            l.setFont(QFont("Segoe UI", 8, QFont.Weight.DemiBold))
+            l.setStyleSheet(f"color: {C.TEXT_MED}; background: transparent; letter-spacing: 0.5px;")
             return l
 
-        lay.addWidget(_sec("ACTIVITY LOG"))
+        lay.addWidget(_sec("Activity Log"))
         self._log = LogWidget()
         lay.addWidget(self._log, stretch=1)
 
@@ -1287,13 +1287,13 @@ class MainWindow(QMainWindow):
         sep.setStyleSheet(f"color: {C.BORDER}; margin: 2px 0;")
         lay.addWidget(sep)
 
-        lay.addWidget(_sec("FILE UPLOAD"))
+        lay.addWidget(_sec("File Upload"))
         self._drop_zone = FileDropZone()
         self._drop_zone.file_selected.connect(self._on_file_selected)
         lay.addWidget(self._drop_zone)
 
         self._file_hint = QLabel("No file loaded — drop or click above to upload")
-        self._file_hint.setFont(QFont("Courier New", 7))
+        self._file_hint.setFont(QFont("Segoe UI", 8))
         self._file_hint.setStyleSheet(f"color: {C.TEXT_MED}; background: transparent;")
         self._file_hint.setWordWrap(True)
         lay.addWidget(self._file_hint)
@@ -1314,16 +1314,17 @@ class MainWindow(QMainWindow):
         lay.addWidget(self._mute_btn)
 
         fs_btn = QPushButton("⛶  FULLSCREEN  [F11]")
-        fs_btn.setFixedHeight(26)
-        fs_btn.setFont(QFont("Courier New", 7))
+        fs_btn.setFixedHeight(28)
+        fs_btn.setFont(QFont("Segoe UI", 8))
         fs_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         fs_btn.setStyleSheet(f"""
             QPushButton {{
-                background: transparent; color: {C.TEXT_MED};
-                border: 1px solid {C.BORDER}; border-radius: 3px;
+                background: {C.PANEL}; color: {C.TEXT};
+                border: 1px solid {C.BORDER}; border-radius: 6px;
+                padding: 4px 10px;
             }}
             QPushButton:hover {{
-                color: {C.PRI}; border: 1px solid {C.BORDER_B};
+                background: {C.BORDER};
             }}
         """)
         fs_btn.clicked.connect(self._toggle_fullscreen)
@@ -1335,28 +1336,28 @@ class MainWindow(QMainWindow):
         row = QHBoxLayout(); row.setSpacing(5)
         self._input = QLineEdit()
         self._input.setPlaceholderText("Type a command or question…")
-        self._input.setFont(QFont("Courier New", 9))
-        self._input.setFixedHeight(30)
+        self._input.setFont(QFont("Segoe UI", 9))
+        self._input.setFixedHeight(34)
         self._input.setStyleSheet(f"""
             QLineEdit {{
-                background: #000d14; color: {C.WHITE};
-                border: 1px solid {C.BORDER}; border-radius: 3px; padding: 3px 7px;
+                background: {C.PANEL}; color: {C.TEXT};
+                border: 1px solid {C.BORDER}; border-radius: 6px; padding: 6px 10px;
             }}
-            QLineEdit:focus {{ border: 1px solid {C.PRI}; }}
+            QLineEdit:focus {{ border: 1px solid {C.PRI}; background: {C.BG}; }}
         """)
         self._input.returnPressed.connect(self._send)
         row.addWidget(self._input)
 
         send = QPushButton("▸")
-        send.setFixedSize(30, 30)
-        send.setFont(QFont("Courier New", 11, QFont.Weight.Bold))
+        send.setFixedSize(34, 34)
+        send.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
         send.setCursor(Qt.CursorShape.PointingHandCursor)
         send.setStyleSheet(f"""
             QPushButton {{
-                background: {C.PANEL}; color: {C.PRI};
-                border: 1px solid {C.PRI_DIM}; border-radius: 3px;
+                background: {C.BORDER}; color: {C.WHITE};
+                border: 1px solid {C.BORDER}; border-radius: 8px;
             }}
-            QPushButton:hover {{ background: {C.PRI_GHO}; border: 1px solid {C.PRI}; }}
+            QPushButton:hover {{ background: {C.PRI}; border: 1px solid {C.PRI}; color: {C.DARK}; }}
         """)
         send.clicked.connect(self._send)
         row.addWidget(send)
@@ -1364,20 +1365,20 @@ class MainWindow(QMainWindow):
 
     def _build_footer(self) -> QWidget:
         w = QWidget()
-        w.setFixedHeight(22)
+        w.setFixedHeight(24)
         w.setStyleSheet(f"background: {C.DARK}; border-top: 1px solid {C.BORDER};")
-        lay = QHBoxLayout(w); lay.setContentsMargins(14, 0, 14, 0)
+        lay = QHBoxLayout(w); lay.setContentsMargins(16, 0, 16, 0)
 
         def _fl(txt, color=C.TEXT_MED):
-            l = QLabel(txt); l.setFont(QFont("Courier New", 7))
+            l = QLabel(txt); l.setFont(QFont("Segoe UI", 8))
             l.setStyleSheet(f"color: {color}; background: transparent;")
             return l
 
-        lay.addWidget(_fl("[F4] Mute  ·  [F11] Fullscreen"))
+        lay.addWidget(_fl("ARSENAL AI  ·  SYSTEM ONLINE"))
         lay.addStretch()
-        lay.addWidget(_fl("XENO  ·  Personal AI Assistant"))
+        lay.addWidget(_fl("F4 MUTE  ·  F11 FULLSCREEN"))
         lay.addStretch()
-        lay.addWidget(_fl("© XENO", C.PRI_DIM))
+        lay.addWidget(_fl("© ARSENAL AI", C.PRI_DIM))
         return w
 
     def _on_file_selected(self, path: str):
@@ -1386,7 +1387,7 @@ class MainWindow(QMainWindow):
         cat  = _file_category(p)
         icon, _ = _FILE_ICONS.get(cat, _FILE_ICONS["unknown"])
         size = _fmt_size(p.stat().st_size)
-        self._file_hint.setText(f"{icon}  {p.name}  ·  {size}  ·  Tell XENO what to do with it")
+        self._file_hint.setText(f"{icon}  {p.name}  ·  {size}  ·  Tell Arsenal AI what to do with it")
         self._log.append_log(f"FILE: {p.name} ({size}) loaded")
         if self.on_text_command:
             msg = (
@@ -1413,18 +1414,18 @@ class MainWindow(QMainWindow):
             self._mute_btn.setText("🔇  MICROPHONE MUTED")
             self._mute_btn.setStyleSheet(f"""
                 QPushButton {{
-                    background: #140006; color: {C.MUTED_C};
-                    border: 1px solid {C.MUTED_C}; border-radius: 3px;
+                    background: #2a100f; color: {C.RED};
+                    border: 1px solid {C.RED}; border-radius: 6px;
                 }}
             """)
         else:
             self._mute_btn.setText("🎙  MICROPHONE ACTIVE")
             self._mute_btn.setStyleSheet(f"""
                 QPushButton {{
-                    background: #00140a; color: {C.GREEN};
-                    border: 1px solid {C.GREEN}; border-radius: 3px;
+                    background: {C.PANEL}; color: {C.GREEN};
+                    border: 1px solid {C.GREEN}; border-radius: 6px;
                 }}
-                QPushButton:hover {{ background: #001f10; }}
+                QPushButton:hover {{ background: {C.BORDER}; }}
             """)
 
     def _send(self):
@@ -1478,7 +1479,7 @@ class MainWindow(QMainWindow):
             self._overlay.hide()
             self._overlay = None
         self._apply_state("LISTENING")
-        self._log.append_log(f"SYS: Initialised. OS={os_name.upper()}. XENO online.")
+        self._log.append_log(f"SYS: Initialised. OS={os_name.upper()}. Arsenal AI online.")
 
 class _RootShim:
     def __init__(self, app: QApplication):

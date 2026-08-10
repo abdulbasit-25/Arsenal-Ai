@@ -1,5 +1,5 @@
 """
-file_processor.py — XENO Universal File Processor
+file_processor.py — Arsenal AI Universal File Processor
 
 Supported types:
   image   → describe, ocr, resize, convert, compress, crop

@@ -1,8 +1,8 @@
-# XENO
+# Arsenal AI
 
-## XENO — Personal AI Desktop Assistant
+## Arsenal AI — Personal AI Desktop Assistant
 
-XENO is a cross-platform personal AI assistant for desktop use. It supports voice interaction, desktop control, file handling, web interaction, screen understanding, memory, and multilingual conversation in English and Urdu.
+Arsenal AI is a cross-platform personal AI assistant for desktop use. It supports voice interaction, desktop control, file handling, web interaction, screen understanding, memory, and multilingual conversation in English and Urdu.
 
 ### Highlights
 

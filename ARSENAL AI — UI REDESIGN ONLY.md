@@ -12,7 +12,7 @@ Your job is to make the existing application look significantly more polished, m
 
 ## 1. BRAND
 
-Replace the visible **XENO** branding with:
+Replace the visible **Arsenal AI** branding with:
 
 **ARSENAL AI**
 

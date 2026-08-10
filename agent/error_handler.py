@@ -22,7 +22,7 @@ class ErrorDecision(Enum):
     ABORT       = "abort"    
 
 
-ERROR_ANALYST_PROMPT = """You are the error recovery module of XENO, a personal AI assistant.
+ERROR_ANALYST_PROMPT = """You are the error recovery module of Arsenal AI, a personal AI assistant.
 
 A task step has failed. Analyze the error and decide what to do.
 
